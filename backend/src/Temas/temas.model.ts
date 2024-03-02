@@ -11,6 +11,9 @@ export class Tema {
 
     @Prop({ required: true })
     estado: string;
+
+    @Prop({ required: true })
+    instructor: string;
     
 }
 

@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { CursosService } from './cursos.service';
-import { Curso } from './curso.model'; 
+import { Curso } from './curso.model';
 
 @Controller('cursos')
 export class CursosController {
-    constructor(private readonly cursosService: CursosService) {}
+    constructor(private readonly cursosService: CursosService) { }
 
     @Post()
     async createCurso(@Body() cursoData: Curso): Promise<Curso> {
@@ -30,4 +30,17 @@ export class CursosController {
     async deleteCurso(@Param('id') id: string): Promise<Curso> {
         return this.cursosService.deleteCurso(id);
     }
+
+    /*codigo nuevo*/
+    @Post(':cursoId/temas/:temaId')
+    addTemaToCurso(@Param('cursoId') cursoId: string, @Param('temaId') temaId: string) {
+        return this.cursosService.addTemaToCurso(cursoId, temaId);
+    }
+
+    @Get(':id/temas')
+    findTemasByCurso(@Param('id') id: string) {
+        return this.cursosService.findTemasByCurso(id);
+    }
+
+    
 }
