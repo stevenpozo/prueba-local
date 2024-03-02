@@ -27,4 +27,5 @@ export class CursosService {
     async deleteCurso(id: string): Promise<Curso> {
         return this.cursoModel.findByIdAndDelete(id).exec();
     }
+    
 }
