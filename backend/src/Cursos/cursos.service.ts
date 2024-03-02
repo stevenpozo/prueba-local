@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Curso, CursoDocument } from './curso.model';
 import { Tema, TemaDocument } from 'src/Temas/temas.model';
 
@@ -32,10 +32,10 @@ export class CursosService {
         return this.cursoModel.findByIdAndDelete(id).exec();
     }
 
-    /*codigo nuevo*/
+    //añadimos un tema a un curso
     async addTemaToCurso(cursoId: string, temaId: string): Promise<CursoDocument> {
         const tema = await this.temaModel.findById(temaId);
-        const curso = await this.cursoModel.findById(cursoId) as CursoDocument; 
+        const curso = await this.cursoModel.findById(cursoId) as CursoDocument;
 
         if (!curso.temas) {
             curso.temas = [];
@@ -44,11 +44,23 @@ export class CursosService {
         await curso.save();
         return curso;
     }
+    
+    //busca los temas de los cursos y extre sus id relacionados
+    async findTemasByCurso(cursoId: string): Promise<any[]> {
+        const curso = await this.cursoModel.findById(cursoId);
+        const temasIds = curso.temas as Types.ObjectId[];
 
-    async findTemasByCurso(cursoId: string): Promise<Tema[]> {
-        const curso = await this.cursoModel.findById(cursoId).populate('temas');
-        return curso.temas as Tema[];
+        // busqueda interna en base a los id obtenidos
+        const temasPromises = temasIds.map(temaId =>
+            this.temaModel.findById(temaId).lean().exec()
+        );
+
+        const temas = await Promise.all(temasPromises);
+
+        return temas;
     }
+
+
 
 
 

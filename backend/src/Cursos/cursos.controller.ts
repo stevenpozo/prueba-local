@@ -41,6 +41,5 @@ export class CursosController {
     findTemasByCurso(@Param('id') id: string) {
         return this.cursosService.findTemasByCurso(id);
     }
-
     
 }

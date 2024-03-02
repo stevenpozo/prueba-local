@@ -13,8 +13,6 @@ export class Curso {
     @Prop({ required: true })
     descripcion: string;
 
-    /*codigo nuevo*/
-
     @Prop({ type: [{ type: Types.ObjectId, ref: 'Tema' }] })
     temas: Types.ObjectId[] | Tema[];
 

@@ -10,6 +10,6 @@ import { Tema, TemaSchema } from './temas.model';
     ],
     controllers: [TemasController],
     providers: [TemasService],
-    exports: [MongooseModule.forFeature([{ name: Tema.name, schema: TemaSchema }])], // Exportar el modelo Tema
+    exports: [MongooseModule.forFeature([{ name: Tema.name, schema: TemaSchema }])],
 })
 export class TemasModule { }
